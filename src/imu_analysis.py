@@ -9,14 +9,13 @@ import matplotlib.pyplot as plt
 
 
 
-bag_name = "/home/manshr/Test_Flight_2_2020-10-22-10-32-13.bag"
+bag_name = "/home/nvidia/storage/imu_data_for_analysis_35mins.bag"
 rostopic_name = "/dji_osdk_ros/imu"
-	
+file_to_be_opened = "/home/nvidia/catkin_ws/src/imu_analysis/csv/Imu_data.csv"	
 
 def analyse_imu():
 	bag = rosbag.Bag(bag_name)
 	bag_info = yaml.load(bag._get_yaml_info())
-	file_to_be_opened = "/home/manshr/Imu_data.csv"
 	csvfile = open(file_to_be_opened, 'wb')
 	writer = csv.writer(csvfile, delimiter=',')
 
@@ -71,13 +70,17 @@ def plot_data(file):
 	plt.legend()
 	plt.show()
 
+def compute_intrinsic():
+
+# add your code here
+	pass
 
 	
 	
 
 if __name__=='__main__':
 	rospy.init_node("imu_analysis_node")
-	#analyse_imu()
-	plot_data("/home/manshr/Imu_data.csv")
+	analyse_imu()
+	#plot_data("Imu_data.csv")
 	rospy.spin()
 	
