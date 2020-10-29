@@ -6,7 +6,8 @@ import yaml, csv
 from time import sleep
 import numpy as np
 import matplotlib.pyplot as plt
-
+import pandas as pd
+import statistics as stat
 
 
 bag_name = "/home/nvidia/storage/imu_data_for_analysis_35mins.bag"
@@ -70,17 +71,19 @@ def plot_data(file):
 	plt.legend()
 	plt.show()
 
-def compute_intrinsic():
-
-# add your code here
-	pass
-
-	
+def compute_intrinsic(file):
+	data = pd.read_csv(file, delimiter=',')
+	stddev = data.std(axis=0, skipna=True)
+	gyro_std = [stddev[1], stddev[2], stddev[3]]
+	accel_std = [stddev[4], stddev[5], stddev[6]]
+	gyro_avg = stat.mean(gyro_std)
+	accel_avg = stat.mean(accel_std)
 	
 
 if __name__=='__main__':
 	rospy.init_node("imu_analysis_node")
 	analyse_imu()
 	#plot_data("Imu_data.csv")
+	#compute_intrinsic("Imu_data.csv")
 	rospy.spin()
 	
